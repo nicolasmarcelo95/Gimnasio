@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import sqlite3
 import re  # Necesario para usar expresiones regulares
 from datetime import datetime #Para calcular la edad en base la fecha de nacimiento
+import os
 
 app = Flask(__name__)
 
@@ -50,6 +51,11 @@ def calcular_beneficios(usuario):
     else: beneficios = "Sin beneficios"
 
     return beneficios
+
+@app.route('/')
+def home():
+    return "Bienvenido al portal del gimnasio"
+
 
 
 # Endpoint 1: Listar todos los usuarios
@@ -188,6 +194,10 @@ def agregar_usuario():
         if conn:
             conn.close()  # Cerrar siempre la conexión    
 
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+
 
